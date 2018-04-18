@@ -1,0 +1,12 @@
+{
+    "name": "enzonagata/template-buffer",
+    "description": "Template engine with php buffer",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Enzo Nagata",
+            "email": "enzo.nagata@gmail.com"
+        }
+    ],
+    "require": {}
+}
