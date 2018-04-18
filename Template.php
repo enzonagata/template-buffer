@@ -2,6 +2,9 @@
 
 namespace Nagata;
 
+use Nagata\Helpers\Text;
+use Nagata\Helpers\Html;
+
 class Template
 {
 
@@ -20,8 +23,8 @@ class Template
         $this->setLayoutPath($container['settings']['layout_path']);
         $this->setTemplatePath($container['settings']['template_path']);
         $this->layout();
-        $this->Html = new \Nagata\Html($container);
-        $this->Text = new \Nagata\Text();
+        $this->Html = new Html($container);
+        $this->Text = new Text();
     }
 
     public function setLayoutPath($path)
