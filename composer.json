@@ -7,5 +7,7 @@
             "email": "enzo.nagata@gmail.com"
         }
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
