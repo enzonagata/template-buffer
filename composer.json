@@ -8,5 +8,8 @@
             "email": "enzo.nagata@gmail.com"
         }
     ],
-    "require": {}
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    }
 }
