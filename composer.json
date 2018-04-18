@@ -1,11 +1,17 @@
 {
     "name": "enzonagata/template-buffer",
     "description": "Template engine with php buffer",
-    "type": "library",
     "authors": [
         {
             "name": "Enzo Nagata",
-            "email": "enzo.nagata@gmail.com"
+            "email": "enzo.nagata@gmail.com",
         }
-    ]
+    ],
+    "license": "GPL",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": " 4.8.35"
+    }
 }
