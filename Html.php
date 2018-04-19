@@ -58,7 +58,6 @@ class Html
     }
 
     /* show css */
-
     public function js()
     {
         $_js_html = '';
@@ -75,7 +74,7 @@ class Html
      }
 
      public function image($img, $class = "") {
-      return '<img src = "' . $this->base_url . '/images/' . $img . '" class = "' . $class . '"/>';
+      return '<img src = "' . $this->base_url . '/img/' . $img . '" class = "' . $class . '"/>';
   }
 
   public function confirm_link($id, $url) {
