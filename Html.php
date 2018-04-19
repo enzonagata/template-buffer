@@ -68,6 +68,7 @@ class Html
     }
 
      //set template
+
      public function pathFor($route_name, $array = [], $args = [])
      {
          return $this->routes->pathFor($route_name, $array, $args);
