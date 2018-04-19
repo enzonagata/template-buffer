@@ -1,6 +1,6 @@
 <?php
 
-namespace Nagata\Helpers;
+namespace Nagata;
 
 class Html
 {

@@ -2,8 +2,8 @@
 
 namespace Nagata;
 
-use Nagata\Helpers\Text;
-use Nagata\Helpers\Html;
+use Nagata\Text;
+use Nagata\Html;
 
 class Template
 {
