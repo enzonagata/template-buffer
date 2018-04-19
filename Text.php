@@ -2,13 +2,10 @@
 
 namespace Nagata;
 
-
-
 /**
  * Text handling methods.
  */
-class Text
-{
+class Text {
 
     /**
      * Default transliterator id string.
@@ -40,27 +37,23 @@ class Text
      * @return string RFC 4122 UUID
      * @copyright Matt Farina MIT License https://github.com/lootils/uuid/blob/master/LICENSE
      */
-    public static function uuid()
-    {
+    public static function uuid() {
         $random = function_exists('random_int') ? 'random_int' : 'mt_rand';
 
         return sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            // 32 bits for "time_low"
-            $random(0, 65535),
-            $random(0, 65535),
-            // 16 bits for "time_mid"
-            $random(0, 65535),
-            // 12 bits before the 0100 of (version) 4 for "time_hi_and_version"
-            $random(0, 4095) | 0x4000,
-            // 16 bits, 8 bits for "clk_seq_hi_res",
-            // 8 bits for "clk_seq_low",
-            // two most significant bits holds zero and one for variant DCE1.1
-            $random(0, 0x3fff) | 0x8000,
-            // 48 bits for "node"
-            $random(0, 65535),
-            $random(0, 65535),
-            $random(0, 65535)
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                // 32 bits for "time_low"
+                $random(0, 65535), $random(0, 65535),
+                // 16 bits for "time_mid"
+                $random(0, 65535),
+                // 12 bits before the 0100 of (version) 4 for "time_hi_and_version"
+                $random(0, 4095) | 0x4000,
+                // 16 bits, 8 bits for "clk_seq_hi_res",
+                // 8 bits for "clk_seq_low",
+                // two most significant bits holds zero and one for variant DCE1.1
+                $random(0, 0x3fff) | 0x8000,
+                // 48 bits for "node"
+                $random(0, 65535), $random(0, 65535), $random(0, 65535)
         );
     }
 
@@ -74,8 +67,7 @@ class Text
      * @param string $rightBound The right boundary to ignore separators in.
      * @return array|string Array of tokens in $data or original input if empty.
      */
-    public static function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')')
-    {
+    public static function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')') {
         if (empty($data)) {
             return [];
         }
@@ -167,24 +159,20 @@ class Text
      * @param array $options An array of options, see description above
      * @return string
      */
-    public static function insert($str, $data, array $options = [])
-    {
+    public static function insert($str, $data, array $options = []) {
         $defaults = [
             'before' => ':', 'after' => null, 'escape' => '\\', 'format' => null, 'clean' => false
         ];
         $options += $defaults;
         $format = $options['format'];
-        $data = (array)$data;
+        $data = (array) $data;
         if (empty($data)) {
             return $options['clean'] ? static::cleanInsert($str, $options) : $str;
         }
 
         if (!isset($format)) {
             $format = sprintf(
-                '/(?<!%s)%s%%s%s/',
-                preg_quote($options['escape'], '/'),
-                str_replace('%', '%%', preg_quote($options['before'], '/')),
-                str_replace('%', '%%', preg_quote($options['after'], '/'))
+                    '/(?<!%s)%s%%s%s/', preg_quote($options['escape'], '/'), str_replace('%', '%%', preg_quote($options['before'], '/')), str_replace('%', '%%', preg_quote($options['after'], '/'))
             );
         }
 
@@ -232,8 +220,7 @@ class Text
      * @return string
      * @see \Cake\Utility\Text::insert()
      */
-    public static function cleanInsert($str, array $options)
-    {
+    public static function cleanInsert($str, array $options) {
         $clean = $options['clean'];
         if (!$clean) {
             return $str;
@@ -252,10 +239,7 @@ class Text
                     'replacement' => '',
                 ];
                 $kleenex = sprintf(
-                    '/[\s]*[a-z]+=(")(%s%s%s[\s]*)+\\1/i',
-                    preg_quote($options['before'], '/'),
-                    $clean['word'],
-                    preg_quote($options['after'], '/')
+                        '/[\s]*[a-z]+=(")(%s%s%s[\s]*)+\\1/i', preg_quote($options['before'], '/'), $clean['word'], preg_quote($options['after'], '/')
                 );
                 $str = preg_replace($kleenex, $clean['replacement'], $str);
                 if ($clean['andText']) {
@@ -271,15 +255,7 @@ class Text
                 ];
 
                 $kleenex = sprintf(
-                    '/(%s%s%s%s|%s%s%s%s)/',
-                    preg_quote($options['before'], '/'),
-                    $clean['word'],
-                    preg_quote($options['after'], '/'),
-                    $clean['gap'],
-                    $clean['gap'],
-                    preg_quote($options['before'], '/'),
-                    $clean['word'],
-                    preg_quote($options['after'], '/')
+                        '/(%s%s%s%s|%s%s%s%s)/', preg_quote($options['before'], '/'), $clean['word'], preg_quote($options['after'], '/'), $clean['gap'], $clean['gap'], preg_quote($options['before'], '/'), $clean['word'], preg_quote($options['after'], '/')
                 );
                 $str = preg_replace($kleenex, $clean['replacement'], $str);
                 break;
@@ -302,8 +278,7 @@ class Text
      * @param array|int $options Array of options to use, or an integer to wrap the text to.
      * @return string Formatted text.
      */
-    public static function wrap($text, $options = [])
-    {
+    public static function wrap($text, $options = []) {
         if (is_numeric($options)) {
             $options = ['width' => $options];
         }
@@ -339,8 +314,7 @@ class Text
      * @param array|int $options Array of options to use, or an integer to wrap the text to.
      * @return string Formatted text.
      */
-    public static function wrapBlock($text, $options = [])
-    {
+    public static function wrapBlock($text, $options = []) {
         if (is_numeric($options)) {
             $options = ['width' => $options];
         }
@@ -388,8 +362,7 @@ class Text
      * @param bool $cut If the cut is set to true, the string is always wrapped at the specified width.
      * @return string Formatted text.
      */
-    public static function wordWrap($text, $width = 72, $break = "\n", $cut = false)
-    {
+    public static function wordWrap($text, $width = 72, $break = "\n", $cut = false) {
         $paragraphs = explode($break, $text);
         foreach ($paragraphs as &$paragraph) {
             $paragraph = static::_wordWrap($paragraph, $width, $break, $cut);
@@ -407,8 +380,7 @@ class Text
      * @param bool $cut If the cut is set to true, the string is always wrapped at the specified width.
      * @return string Formatted text.
      */
-    protected static function _wordWrap($text, $width = 72, $break = "\n", $cut = false)
-    {
+    protected static function _wordWrap($text, $width = 72, $break = "\n", $cut = false) {
         if ($cut) {
             $parts = [];
             while (mb_strlen($text) > 0) {
@@ -465,8 +437,7 @@ class Text
      * @param array $options An array of HTML attributes and options.
      * @return string The highlighted text
      */
-    public static function highlight($text, $phrase, array $options = [])
-    {
+    public static function highlight($text, $phrase, array $options = []) {
         if (empty($phrase)) {
             return $text;
         }
@@ -516,8 +487,7 @@ class Text
      * @return string The text without links
      * @deprecated 3.2.12 This method will be removed in 4.0.0
      */
-    public static function stripLinks($text)
-    {
+    public static function stripLinks($text) {
         deprecationWarning('This method will be removed in 4.0.0.');
         do {
             $text = preg_replace('#</?a([/\s][^>]*)?(>|$)#i', '', $text, -1, $count);
@@ -542,8 +512,7 @@ class Text
      * @param array $options An array of options.
      * @return string Trimmed string.
      */
-    public static function tail($text, $length = 100, array $options = [])
-    {
+    public static function tail($text, $length = 100, array $options = []) {
         $default = [
             'ellipsis' => '...', 'exact' => true
         ];
@@ -582,8 +551,7 @@ class Text
      * @param array $options An array of HTML attributes and options.
      * @return string Trimmed string.
      */
-    public static function truncate($text, $length = 100, array $options = [])
-    {
+    public static function truncate($text, $length = 100, array $options = []) {
         $default = [
             'ellipsis' => '...', 'exact' => true, 'html' => false, 'trimWidth' => false,
         ];
@@ -680,8 +648,7 @@ class Text
      * @return string Trimmed string.
      * @see \Cake\Utility\Text::truncate()
      */
-    public static function truncateByWidth($text, $length = 100, array $options = [])
-    {
+    public static function truncateByWidth($text, $length = 100, array $options = []) {
         return static::truncate($text, $length, ['trimWidth' => true] + $options);
     }
 
@@ -697,8 +664,7 @@ class Text
      * @param array $options An array of options.
      * @return int
      */
-    protected static function _strlen($text, array $options)
-    {
+    protected static function _strlen($text, array $options) {
         if (empty($options['trimWidth'])) {
             $strlen = 'mb_strlen';
         } else {
@@ -711,13 +677,11 @@ class Text
 
         $pattern = '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i';
         $replace = preg_replace_callback(
-            $pattern,
-            function ($match) use ($strlen) {
-                $utf8 = html_entity_decode($match[0], ENT_HTML5 | ENT_QUOTES, 'UTF-8');
+                $pattern, function ($match) use ($strlen) {
+            $utf8 = html_entity_decode($match[0], ENT_HTML5 | ENT_QUOTES, 'UTF-8');
 
-                return str_repeat(' ', $strlen($utf8, 'UTF-8'));
-            },
-            $text
+            return str_repeat(' ', $strlen($utf8, 'UTF-8'));
+        }, $text
         );
 
         return $strlen($replace);
@@ -737,8 +701,7 @@ class Text
      * @param array $options An array of options.
      * @return string
      */
-    protected static function _substr($text, $start, $length, array $options)
-    {
+    protected static function _substr($text, $start, $length, array $options) {
         if (empty($options['trimWidth'])) {
             $substr = 'mb_substr';
         } else {
@@ -771,7 +734,7 @@ class Text
         }
 
         if (empty($options['html'])) {
-            return (string)$substr($text, $start, $length);
+            return (string) $substr($text, $start, $length);
         }
 
         $totalOffset = 0;
@@ -796,8 +759,7 @@ class Text
 
             $len = self::_strlen($part, $options);
             if ($offset !== 0 || $totalLength + $len > $length) {
-                if (strpos($part, '&') === 0 && preg_match($pattern, $part)
-                    && $part !== html_entity_decode($part, ENT_HTML5 | ENT_QUOTES, 'UTF-8')
+                if (strpos($part, '&') === 0 && preg_match($pattern, $part) && $part !== html_entity_decode($part, ENT_HTML5 | ENT_QUOTES, 'UTF-8')
                 ) {
                     // Entities cannot be passed substr.
                     continue;
@@ -823,8 +785,7 @@ class Text
      * @param string $text The input text
      * @return string
      */
-    protected static function _removeLastWord($text)
-    {
+    protected static function _removeLastWord($text) {
         $spacepos = mb_strrpos($text, ' ');
 
         if ($spacepos !== false) {
@@ -852,8 +813,7 @@ class Text
      * @param string $ellipsis Ending that will be appended
      * @return string Modified string
      */
-    public static function excerpt($text, $phrase, $radius = 100, $ellipsis = '...')
-    {
+    public static function excerpt($text, $phrase, $radius = 100, $ellipsis = '...') {
         if (empty($text) || empty($phrase)) {
             return static::truncate($text, $radius * 2, ['ellipsis' => $ellipsis]);
         }
@@ -894,8 +854,7 @@ class Text
      * @param string $separator The separator used to join all the other items together. Defaults to ', '.
      * @return string The glued together string.
      */
-    public static function toList(array $list, $and = null, $separator = ', ')
-    {
+    public static function toList(array $list, $and = null, $separator = ', ') {
         if ($and === null) {
             $and = __d('cake', 'and');
         }
@@ -912,8 +871,7 @@ class Text
      * @param string $string value to test
      * @return bool
      */
-    public static function isMultibyte($string)
-    {
+    public static function isMultibyte($string) {
         $length = strlen($string);
 
         for ($i = 0; $i < $length; $i++) {
@@ -933,8 +891,7 @@ class Text
      * @param string $string String to convert.
      * @return array
      */
-    public static function utf8($string)
-    {
+    public static function utf8($string) {
         $map = [];
 
         $values = [];
@@ -974,8 +931,7 @@ class Text
      * @param array $array Array
      * @return string
      */
-    public static function ascii(array $array)
-    {
+    public static function ascii(array $array) {
         $ascii = '';
 
         foreach ($array as $utf8) {
@@ -1002,10 +958,9 @@ class Text
      * @return mixed Number of bytes as integer on success, `$default` on failure if not false
      * @throws \InvalidArgumentException On invalid Unit type.
      */
-    public static function parseFileSize($size, $default = false)
-    {
+    public static function parseFileSize($size, $default = false) {
         if (ctype_digit($size)) {
-            return (int)$size;
+            return (int) $size;
         }
         $size = strtoupper($size);
 
@@ -1024,7 +979,7 @@ class Text
         if (substr($size, -1) === 'B' && ctype_digit(substr($size, 0, -1))) {
             $size = substr($size, 0, -1);
 
-            return (int)$size;
+            return (int) $size;
         }
 
         if ($default !== false) {
@@ -1038,8 +993,7 @@ class Text
      *
      * @return string Transliterator identifier.
      */
-    public static function getTransliteratorId()
-    {
+    public static function getTransliteratorId() {
         return static::$_defaultTransliteratorId;
     }
 
@@ -1049,8 +1003,7 @@ class Text
      * @param string $transliteratorId Transliterator identifier.
      * @return void
      */
-    public static function setTransliteratorId($transliteratorId)
-    {
+    public static function setTransliteratorId($transliteratorId) {
         static::$_defaultTransliteratorId = $transliteratorId;
     }
 
@@ -1063,8 +1016,7 @@ class Text
      * @return string
      * @see https://secure.php.net/manual/en/transliterator.transliterate.php
      */
-    public static function transliterate($string, $transliteratorId = null)
-    {
+    public static function transliterate($string, $transliteratorId = null) {
         $transliteratorId = $transliteratorId ?: static::$_defaultTransliteratorId;
 
         return transliterator_transliterate($transliteratorId, $string);
@@ -1088,8 +1040,7 @@ class Text
      *   or an array of options.
      * @return string
      */
-    public static function slug($string, $options = [])
-    {
+    public static function slug($string, $options = []) {
         if (is_string($options)) {
             $options = ['replacement' => $options];
         }
@@ -1117,4 +1068,5 @@ class Text
 
         return $string;
     }
+
 }
