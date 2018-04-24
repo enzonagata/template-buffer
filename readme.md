@@ -1,88 +1,102 @@
-## Renderizar template com **PHP buffer e Slim 3**
+## Template render with **PHP buffer and Slim 3**
 
-Utiliza-se arquivos com extensão __*.phtml__ para a exibição do template, por enquanto não podendo ser alterada.
+Only use files with __*.phtml__ extension, for the moment can not be changed.
 _____
 
 ## Class Template;
 
-### **Como começar**
+### **Get started**
 ```php
 $View = new Template($container);
 ```
-### **Configurando pasta de Layout** - Diretório relativo a raíz
+### **Configuring Layout path** - Root directory
 ```php
 $dir = 'path/subpath';
 $View->setLayoutPath($dir);
 ```
-### **Configurando pasta de Templates** - Diretório relativo a raíz
+### **Configuring Templates path** - Root directory
 ```php
 $dir = 'path/subpath';
 $View->setTemplatePath($dir);
 ```
 
-### **Criando variáveis para acesso nos TEMPLATES e LAYOUTS**
+### **Create variables to access in to Templates and Layouts**
 ```php
 $var = array(); || $var = (string); || $var = (integer);
 $View->set('nome_variavel', mixed $var);
 ```
 
-#### **Modo de acesso as variaveis no Template ou Layout**
+#### **How to access variables in to Template or Layout files**
 ```php
 <p>
-   <?=$nome_variavel?>
+   <?=$variable_name?>
 </p>
 
-<!-- Acesso com array -->
+<!-- With array -->
 <ul>
-<?php foreach($nome_variavel as $key => $item){?>
+<?php foreach($variable_name as $key => $item){?>
    <li><?= $key; ?> => <?= $item; ?></li>
 <?php } ?>
 </ul>
 ```
 
-### **Renderizando o template**
+### **Rendering template**
 ```php
-//Obs.: nome do arquivo sem a
-$View->render('nome_do_arquivo');
+//Obs.: file name without extension
+$View->render('file_name');
 
-//Caso esteja em um subdiretorio da pasta de Template configurada.
-//Obs.: nome do arquivo sem a extensão
-$View->render('nome_pasta/nome_do_arquivo');
+//If it is in a subdirectory of the configured Template folder.
+//Obs.: file name without extension
+$View->render('path_name/file_name');
 ```
 ## Class Html;
-Essa classe vem estenciada por padrão na classe Template, podendo ser acessada com a variável públic $View->Html
-### **Adicionando CSS no Layout**
+This class has been extended by default in the Template class, and can be accessed with the public variable _$View->Html_
+### **Adding CSS in Layout**
 ```php
-//Não colocar a extensão *.css
+//Don't write with extension *.css
 $View->Html->addStyles(array());
 //ex:
 $View->Html->addStyles(['styles','admin/index']);
 ```
-### **Exibindo CSS no Layout**
+### **Displaying css in layout**
 ```php
 <head>
 <?=$this->Html->css();?>
 </head>
 ```
 
-### **Adicionando JS a um Layout**
+### **Adding JS in Layout**
 ```php
-//Não colocar a extensão *.js
+//Don't write with extension *.js
 $View->Html->addScripts(array());
 //ex:
 $View->Html->addScripts(['scripts','admin/index']);
 ```
 
-### **Exibindo JS no Layout**
+### **Displaying JS in Layout**
 ```php
 <head>
 <?=$this->Html->js();?>
 </head>
 ```
 
-### **Exibindo imagem**
+### **Displaying imagem**
 ```php
 <body>
 <?=$this->Html->image('nome_do_arquivo.extensão','classe_css');?>
 </body>
+```
+
+## Class Text;
+This class has been extended by default in the Template class, and can be accessed with the public variable _$View->Text_
+
+```php
+//Text clean
+$this->Text->clean($string);
+
+//Text excerpt
+$this->Text->excerpt($string,$startPos=0,$maxLenght=100);
+
+//Slugfy - Url Friendly
+$this->Text->slugfy($text)
 ```
