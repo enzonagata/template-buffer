@@ -31,7 +31,7 @@ class Html {
     public function css($local = 'top') {
         $_css_html = '';
         if($local=='top') {
-            foreach ($this->styles as $css) {
+            foreach ($this->styles['top'] as $css) {
                 if (preg_match('(http|https)', $css)) {
                     $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
                 } else {
@@ -69,7 +69,7 @@ class Html {
     public function js($local = 'top') {
         $_js_html = '';
         if($local=='top') {
-            foreach ($this->scripts as $js) {
+            foreach ($this->scripts['top'] as $js) {
                 if (preg_match('(http|https)', $js)) {
                     $_js_html .= '<script src = "' . $js . '"></script>';
                 } else {
