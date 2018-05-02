@@ -31,19 +31,23 @@ class Html {
     public function css($local = 'top') {
         $_css_html = '';
         if($local=='top') {
-            foreach ($this->styles['top'] as $css) {
-                if (preg_match('(http|https)', $css)) {
-                    $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
-                } else {
-                    $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+            if(count($this->styles['top'])>0) {
+                foreach ($this->styles['top'] as $css) {
+                    if (preg_match('(http|https)', $css)) {
+                        $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
+                    } else {
+                        $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                    }
                 }
             }
         }else if($local=='bottom'){
-            foreach ($this->styles['bottom'] as $css) {
-                if (preg_match('(http|https)', $css)) {
-                    $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
-                } else {
-                    $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+            if(count($this->styles['bottom'])>0) {
+                foreach ($this->styles['bottom'] as $css) {
+                    if (preg_match('(http|https)', $css)) {
+                        $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
+                    } else {
+                        $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                    }
                 }
             }
         }
@@ -69,19 +73,23 @@ class Html {
     public function js($local = 'top') {
         $_js_html = '';
         if($local=='top') {
-            foreach ($this->scripts['top'] as $js) {
-                if (preg_match('(http|https)', $js)) {
-                    $_js_html .= '<script src = "' . $js . '"></script>';
-                } else {
-                    $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+            if(count($this->scripts['top'])>0) {
+                foreach ($this->scripts['top'] as $js) {
+                    if (preg_match('(http|https)', $js)) {
+                        $_js_html .= '<script src = "' . $js . '"></script>';
+                    } else {
+                        $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                    }
                 }
             }
         }else if($local=='bottom'){
-            foreach ($this->scripts['bottom'] as $js) {
-                if (preg_match('(http|https)', $js)) {
-                    $_js_html .= '<script src = "' . $js . '"></script>';
-                } else {
-                    $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+            if(count($this->scripts['bottom'])>0) {
+                foreach ($this->scripts['bottom'] as $js) {
+                    if (preg_match('(http|https)', $js)) {
+                        $_js_html .= '<script src = "' . $js . '"></script>';
+                    } else {
+                        $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                    }
                 }
             }
         }
