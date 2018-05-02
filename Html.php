@@ -33,7 +33,7 @@ class Html {
             if (preg_match('(http|https)', $css)) {
                 $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
             } else {
-                $_css_html .= '<link href = "' . $this->base_url . '/css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
             }
         }
         echo $_css_html;
@@ -56,7 +56,11 @@ class Html {
     public function js() {
         $_js_html = '';
         foreach ($this->scripts as $js) {
-            $_js_html .= '<script src = "' . $this->base_url . '/js/' . $js . '.js"></script>';
+            if (preg_match('(http|https)', $js)) {
+                $_js_html .= '<script src = "' . $js . '"></script>';
+            }else {
+                $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+            }
         }
         echo $_js_html;
     }
@@ -68,7 +72,7 @@ class Html {
     }
 
     public function image($img, $class = "") {
-        return '<img src = "' . $this->base_url . '/img/' . $img . '" class = "' . $class . '"/>';
+        return '<img src = "img/' . $img . '" class = "' . $class . '"/>';
     }
 
     public function confirm_link($id, $url) {
