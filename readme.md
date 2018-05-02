@@ -54,30 +54,36 @@ This class has been extended by default in the Template class, and can be access
 ### **Adding CSS in Layout**
 ```php
 //Don't write with extension *.css
-$View->Html->addStyles(array());
+$View->Html->addStyles(array(),$option(String('top','bottom')));
 //ex:
-$View->Html->addStyles(['styles','admin/index']);
+$View->Html->addStyles(['styles','admin/index'],$option);
 ```
 ### **Displaying css in layout**
 ```php
 <head>
-<?=$this->Html->css();?>
+<?=$this->Html->css('top');?>
 </head>
+<footer>
+<?=$this->Html->css('bottom');?>
+</footer>
 ```
 
 ### **Adding JS in Layout**
 ```php
 //Don't write with extension *.js
-$View->Html->addScripts(array());
+$View->Html->addScripts(array(),$option(String('top','bottom')));
 //ex:
-$View->Html->addScripts(['scripts','admin/index']);
+$View->Html->addScripts(['scripts','admin/index'],$option);
 ```
 
 ### **Displaying JS in Layout**
 ```php
 <head>
-<?=$this->Html->js();?>
+<?=$this->Html->js('top');?>
 </head>
+<footer>
+<?=$this->Html->js('bottom');?>
+</footer>
 ```
 
 ### **Displaying imagem**
