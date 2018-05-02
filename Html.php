@@ -15,25 +15,36 @@ class Html {
         $this->base_url = $this->request->getUri()->getBaseUrl();
     }
 
-    public function addStyles($uri) {
-        if (is_array($uri)) {
-            foreach ($uri as $uri2) {
-                $this->addStyles($uri2);
-            }
-        } elseif (!in_array($uri, $this->styles)) {
-            $this->styles[] = $uri;
+    public function addStyles($uri,$option='top') {
+        if (@count($this->styles[$option]) <= 0) {
+            $this->styles[$option] = [];
         }
+        if (is_array($uri)) {
+            foreach ($uri as $uri2)
+                $this->addStyles($uri2, $option);
+        } elseif (!in_array($uri, $this->styles[$option]))
+            $this->styles[$option][] = $uri;
     }
 
     /* show css */
 
-    public function css() {
+    public function css($local = 'top') {
         $_css_html = '';
-        foreach ($this->styles as $css) {
-            if (preg_match('(http|https)', $css)) {
-                $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
-            } else {
-                $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+        if($local=='top') {
+            foreach ($this->styles as $css) {
+                if (preg_match('(http|https)', $css)) {
+                    $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
+                } else {
+                    $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                }
+            }
+        }else if($local=='bottom'){
+            foreach ($this->styles['bottom'] as $css) {
+                if (preg_match('(http|https)', $css)) {
+                    $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
+                } else {
+                    $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                }
             }
         }
         echo $_css_html;
@@ -41,25 +52,37 @@ class Html {
 
     /* Stylesheet javascript add */
 
-    public function addScripts($uri) {
-        if (is_array($uri)) {
-            foreach ($uri as $uri2) {
-                $this->addScripts($uri2);
-            }
-        } elseif (!in_array($uri, $this->scripts)) {
-            $this->scripts[] = $uri;
+    public function addScripts($uri,$option='top') {
+        if (@count($this->scripts[$option]) <= 0) {
+            $this->scripts[$option] = [];
         }
+        if (is_array($uri)) {
+            foreach ($uri as $uri2)
+                $this->addScripts($uri2, $option);
+        } elseif (!in_array($uri, $this->scripts[$option]))
+            $this->scripts[$option][] = $uri;
+
     }
 
     /* show css */
 
-    public function js() {
+    public function js($local = 'top') {
         $_js_html = '';
-        foreach ($this->scripts as $js) {
-            if (preg_match('(http|https)', $js)) {
-                $_js_html .= '<script src = "' . $js . '"></script>';
-            }else {
-                $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+        if($local=='top') {
+            foreach ($this->scripts as $js) {
+                if (preg_match('(http|https)', $js)) {
+                    $_js_html .= '<script src = "' . $js . '"></script>';
+                } else {
+                    $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                }
+            }
+        }else if($local=='bottom'){
+            foreach ($this->scripts['bottom'] as $js) {
+                if (preg_match('(http|https)', $js)) {
+                    $_js_html .= '<script src = "' . $js . '"></script>';
+                } else {
+                    $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                }
             }
         }
         echo $_js_html;
