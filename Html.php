@@ -14,16 +14,16 @@ class Html {
     public $scripts = [];
 
     public function __construct($container) {
-        $this->cssBaseUrl = $container['setting']['cssBaseUrl'];
-        $this->jsBaseUrl = $container['setting']['jsBaseUrl'];
-        $this->imageBaseUrl = $container['setting']['imageBaseUrl'];
         $this->routes = $container->get('router');
         $this->request = $container->get('request');
         if($container['setting']['fullBaseUrl']==true) {
-            $this->base_url = $this->request->getUri()->getBaseUrl();
+            $this->base_url = $this->request->getUri()->getBaseUrl().DIRECTORY_SEPARATOR;
         }else{
             $this->base_url = '';
         }
+        $this->cssBaseUrl = $this->base_url.$container['setting']['cssBaseUrl'];
+        $this->jsBaseUrl = $this->base_url.$container['setting']['jsBaseUrl'];
+        $this->imageBaseUrl = $this->base_url.$container['setting']['imageBaseUrl'];
     }
 
     public function addStyles($uri,$option='top') {
