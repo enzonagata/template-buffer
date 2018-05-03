@@ -6,13 +6,24 @@ class Html {
 
     protected $routes;
     protected $request;
+    public $cssBaseUrl;
+    public $jsBaseUrl;
+    public $imageBaseUrl;
+
     public $styles = [];
     public $scripts = [];
 
     public function __construct($container) {
+        $this->cssBaseUrl = $container['setting']['cssBaseUrl'];
+        $this->jsBaseUrl = $container['setting']['jsBaseUrl'];
+        $this->imageBaseUrl = $container['setting']['imageBaseUrl'];
         $this->routes = $container->get('router');
         $this->request = $container->get('request');
-        $this->base_url = $this->request->getUri()->getBaseUrl();
+        if($container['setting']['fullBaseUrl']==true) {
+            $this->base_url = $this->request->getUri()->getBaseUrl();
+        }else{
+            $this->base_url = '';
+        }
     }
 
     public function addStyles($uri,$option='top') {
@@ -36,7 +47,7 @@ class Html {
                     if (preg_match('(http|https)', $css)) {
                         $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
                     } else {
-                        $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                        $_css_html .= '<link href = "'.$this->cssBaseUrl . $css . '.css" rel = "stylesheet" type = "text/css" />';
                     }
                 }
             }
@@ -46,7 +57,7 @@ class Html {
                     if (preg_match('(http|https)', $css)) {
                         $_css_html .= '<link href = "' . $css . '" rel = "stylesheet" type = "text/css" />';
                     } else {
-                        $_css_html .= '<link href = "css/' . $css . '.css" rel = "stylesheet" type = "text/css" />';
+                        $_css_html .= '<link href = "'.$this->cssBaseUrl . $css . '.css" rel = "stylesheet" type = "text/css" />';
                     }
                 }
             }
@@ -78,7 +89,7 @@ class Html {
                     if (preg_match('(http|https)', $js)) {
                         $_js_html .= '<script src = "' . $js . '"></script>';
                     } else {
-                        $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                        $_js_html .= '<script src = "'.$this->jsBaseUrl . $js . '.js"></script>';
                     }
                 }
             }
@@ -88,7 +99,7 @@ class Html {
                     if (preg_match('(http|https)', $js)) {
                         $_js_html .= '<script src = "' . $js . '"></script>';
                     } else {
-                        $_js_html .= '<script src = "js/' . $js . '.js"></script>';
+                        $_js_html .= '<script src = "'.$this->jsBaseUrl . $js . '.js"></script>';
                     }
                 }
             }
@@ -103,7 +114,7 @@ class Html {
     }
 
     public function image($img, $class = "") {
-        return '<img src = "img/' . $img . '" class = "' . $class . '"/>';
+        return '<img src = "'.$this->imageBaseUrl . $img . '" class = "' . $class . '"/>';
     }
 
     public function confirm_link($id, $url) {
